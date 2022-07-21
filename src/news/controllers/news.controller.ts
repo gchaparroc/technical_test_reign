@@ -18,6 +18,11 @@ export class NewsController {
       return this.newsService.findAll();
     }
 
+  @Get('tasks')
+    getTasks() {
+    return this.newsService.getTasks();
+  }
+
     @Get('paginados')
     @ApiOperation({summary: 'Noticias paginadas'})
     getNewsPaginados(

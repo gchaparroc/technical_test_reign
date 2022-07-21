@@ -1,15 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 
 import { Notice } from './../entities/notice.entity';
 import { CreateNoticeDto, UpdateNoticeDto } from './../dtos/news.dtos';
 import { ConfigService } from '@nestjs/config';
-
+import { Client } from 'pg';
 
 @Injectable()
 export class NewsService {
 
   constructor(
     private configService: ConfigService,
+    @Inject('PG') private clientPg: Client,
 ) {}
 
   private counterId = 1;
@@ -45,6 +46,17 @@ export class NewsService {
     }
     this.news.splice(index, 1);
     return true;
+  }
+
+  getTasks(){
+    return new Promise((resolve, reject) => {
+      this.clientPg.query('SELECT * FROM tasks', (err, res) => {
+        if(err){
+          reject(err);
+        }
+        resolve(res.rows);
+      });
+    });
   }
 
 }
