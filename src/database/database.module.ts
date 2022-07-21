@@ -31,7 +31,7 @@ client.connect();
             username: user,
             password,
             database: dbName,
-            synchronize: true, // new attr
+            synchronize: false, // new attr
             autoLoadEntities: true, // new attr
           };
         },
