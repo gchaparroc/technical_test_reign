@@ -1,16 +1,17 @@
 import { Controller, Get, Param, Post, Query, Body, Put, Delete, HttpStatus, HttpCode } from '@nestjs/common';
 import { response } from 'express';
+import { NewsService } from './../services/news.service';
+
 
 @Controller('news')
 export class NewsController {
 
+  constructor(private newsService: NewsService){}
+
   @Get()
     getNews(
     ) {
-        return {
-          message: `Retornamos todos las news`,
-        };
-
+      return this.newsService.findAll();
     }
 
     @Get('paginados')
@@ -29,7 +30,7 @@ export class NewsController {
     @Get(':noticeId')
     @HttpCode(HttpStatus.ACCEPTED)
     getNotice(@Param('noticeId') noticeId: string) {
-        return `notice ${noticeId}`;
+      return this.newsService.findOne(+noticeId);
     }
 
     @Delete(':id')
