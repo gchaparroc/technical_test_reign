@@ -1,11 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Notice } from './../entities/notice.entity';
-import { CreateNoticeDto } from './../dtos/news.dtos';
+import { CreateNoticeDto, UpdateNoticeDto } from './../dtos/news.dtos';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
 export class NewsService {
+
+  constructor(
+    private configService: ConfigService,
+) {}
 
   private counterId = 1;
 
@@ -19,6 +24,9 @@ export class NewsService {
   ];
 
   findAll(){
+    const apiKey = this.configService.get('API_KEY');
+    const dbName = this.configService.get('DATABASE_NAME');
+    console.log(apiKey, dbName);
     return this.news;
   }
 
