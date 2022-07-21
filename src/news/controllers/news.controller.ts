@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Post, Query, Body, Put, Delete, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Body, Put, Delete, HttpStatus, HttpCode/*, ParseIntPipe*/ } from '@nestjs/common';
 import { response } from 'express';
 import { NewsService } from './../services/news.service';
-
+import { ParseIntPipe } from './../../common/parse-int.pipe';
 
 @Controller('news')
 export class NewsController {
@@ -29,14 +29,12 @@ export class NewsController {
 
     @Get(':noticeId')
     @HttpCode(HttpStatus.ACCEPTED)
-    getNotice(@Param('noticeId') noticeId: string) {
-      return this.newsService.findOne(+noticeId);
+    getNotice(@Param('noticeId', ParseIntPipe) noticeId: number) {
+      return this.newsService.findOne(noticeId);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number){
-      return{
-        id
-      };
+    delete(@Param('id', ParseIntPipe) id: number){
+      return this.newsService.remove(id);
     }
 }

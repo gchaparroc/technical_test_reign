@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Notice } from './../entities/notice.entity';
 
@@ -21,16 +21,20 @@ export class NewsService {
   }
 
   findOne(id: number){
-    return this.news.find((item) => item.id === id);
+    const notice = this.news.find((item) => item.id === id);
+    if(!notice){
+        throw new NotFoundException(`La Noticia #${id} no existe`);
+    }
+    return notice;
   }
 
   remove(id: number) {
     const index = this.news.findIndex((item) => item.id === id);
     if (index === -1) {
-       return `La Noticia #${id} no existe`;
+      throw new NotFoundException(`La Noticia #${id} no existe`);
     }
     this.news.splice(index, 1);
     return true;
-}
+  }
 
 }
