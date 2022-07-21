@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Query, Body, Put, Delete, HttpStatus, Htt
 import { response } from 'express';
 import { NewsService } from './../services/news.service';
 import { ParseIntPipe } from './../../common/parse-int.pipe';
+import { CreateNoticeDto } from './../dtos/news.dtos';
 
 @Controller('news')
 export class NewsController {

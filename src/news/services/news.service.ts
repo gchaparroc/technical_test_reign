@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Notice } from './../entities/notice.entity';
+import { CreateNoticeDto } from './../dtos/news.dtos';
+
 
 @Injectable()
 export class NewsService {
