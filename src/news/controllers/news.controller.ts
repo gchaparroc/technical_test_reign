@@ -18,25 +18,6 @@ export class NewsController {
       return this.newsService.findAll();
     }
 
-  @Get('tasks')
-    getTasks() {
-    return this.newsService.getTasks();
-  }
-
-    @Get('paginados')
-    @ApiOperation({summary: 'Noticias paginadas'})
-    getNewsPaginados(
-      //@Query('limit') limit = 100,
-      @Query('limit') limit: number,
-      //@Query('offset') offset = 50,
-      @Query('offset') offset: number,
-      @Query('brand') brand: string,
-    ) {
-        return {
-          message: `products limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
-        };
-    }
-
     @Get(':noticeId')
     @ApiOperation({summary: 'Listar noticia por Id'})
     @HttpCode(HttpStatus.ACCEPTED)
@@ -49,4 +30,5 @@ export class NewsController {
     delete(@Param('id', ParseIntPipe) id: number){
       return this.newsService.remove(id);
     }
+
 }

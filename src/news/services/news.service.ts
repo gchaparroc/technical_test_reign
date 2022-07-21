@@ -1,38 +1,26 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { Notice } from './../entities/notice.entity';
 import { CreateNoticeDto, UpdateNoticeDto } from './../dtos/news.dtos';
-import { ConfigService } from '@nestjs/config';
-import { Client } from 'pg';
+//import { ConfigService } from '@nestjs/config';
+//import { Client } from 'pg';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class NewsService {
 
-  constructor(
-    private configService: ConfigService,
-    @Inject('PG') private clientPg: Client,
-) {}
+  constructor(@InjectRepository(Notice) private noticeRepo: Repository<Notice>, ) {}
 
-  private counterId = 1;
-
-  private news: Notice[] = [
-    {
-        id: 1,
-        title: 'Noticia 1',
-        author: 'Angel David Chaparro Vasquez',
-        comment_text: 'Comentario cobre la noticia 1',
-    },
-  ];
 
   findAll(){
-    const apiKey = this.configService.get('API_KEY');
-    const dbName = this.configService.get('DATABASE_NAME');
-    console.log(apiKey, dbName);
-    return this.news;
+    console.log("llegamos a find");
+    return this.noticeRepo.find();
   }
 
   findOne(id: number){
-    const notice = this.news.find((item) => item.id === id);
+    console.log("llegamos a findOne");
+    const notice = this.noticeRepo.findOne(id);
     if(!notice){
         throw new NotFoundException(`La Noticia #${id} no existe`);
     }
@@ -40,23 +28,7 @@ export class NewsService {
   }
 
   remove(id: number) {
-    const index = this.news.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`La Noticia #${id} no existe`);
-    }
-    this.news.splice(index, 1);
-    return true;
-  }
-
-  getTasks(){
-    return new Promise((resolve, reject) => {
-      this.clientPg.query('SELECT * FROM tasks', (err, res) => {
-        if(err){
-          reject(err);
-        }
-        resolve(res.rows);
-      });
-    });
+    return this.noticeRepo.delete(id);
   }
 
 }
