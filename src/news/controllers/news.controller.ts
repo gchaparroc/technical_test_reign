@@ -2,7 +2,7 @@ import { Controller, Get, Param, Post, Query, Body, Put, Delete, HttpStatus, Htt
 import { response } from 'express';
 import { NewsService } from './../services/news.service';
 import { ParseIntPipe } from './../../common/parse-int.pipe';
-import { CreateNoticeDto } from './../dtos/news.dtos';
+import { CreateNoticeDto, FilterNewsDto } from './../dtos/news.dtos';
 import { ApiTags, ApiOperation  } from '@nestjs/swagger';
 
 @ApiTags('news')
@@ -12,10 +12,15 @@ export class NewsController {
   constructor(private newsService: NewsService){}
 
   @Get()
-  @ApiOperation({summary: 'Listar todas las noticias'})
-    getNews(
-    ) {
-      return this.newsService.findAll();
+  @ApiOperation({summary: 'Listar todas las noticias y paginacion (Ejemplo: localhost:3000/news?limit=5&offset=0)'})
+    getNews(@Query() params: FilterNewsDto) {
+      return this.newsService.findAll(params);
+    }
+
+    @Get('filtroAutor')
+    @ApiOperation({summary: 'Filtrar noticias por autor o titulo (Ejemplo: localhost:3000/news/filtros?autor=%nombreAutor% ó localhost:3000/news/filtros?titulo=%titulo%)'})
+    getNewsFiltradas(@Query() params: FilterNewsDto) {
+      return this.newsService.findAllFiltrada(params);
     }
 
     @Get(':noticeId')

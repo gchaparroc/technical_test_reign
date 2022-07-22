@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsOptional, IsPositive, Min } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreateNoticeDto {
@@ -17,3 +17,22 @@ export class CreateNoticeDto {
   }
 
   export class UpdateNoticeDto extends PartialType(CreateNoticeDto) {}
+
+  export class FilterNewsDto {
+
+    @IsOptional()
+    @IsPositive()
+    limit: number;
+
+    @IsOptional()
+    @Min(0)
+    offset: number;
+
+    @IsOptional()
+    @IsString()
+    autor: string;
+
+    @IsOptional()
+    @IsString()
+    titulo: string;
+  }
