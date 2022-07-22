@@ -33,6 +33,9 @@ export class NewsService {
     }else if(params.titulo != undefined){
       const { titulo } = params;
       where.title = Like(`%${titulo}%`);
+    }else if(params.tag != undefined){
+      const { tag } = params;
+      where._tags = Like(`%${tag}%`);
     }
     return this.noticeRepo.find({
       where,

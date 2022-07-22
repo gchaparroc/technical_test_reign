@@ -9,7 +9,7 @@ var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 
 console.log(`Hoy ${fecha} a las ${hora} Iniciamos el proceso.`);
 
-cron.schedule('0 * * * *', () => {
+cron.schedule('* * * * *', () => {
   console.log('Corriendo tarea cada 1 hora');
 
   fetch('https://hn.algolia.com/api/v1/search_by_date?query=nodejs', {
@@ -38,6 +38,7 @@ cron.schedule('0 * * * *', () => {
       module.exports = { pool };
       var iterador = 0;
       const info = data.hits.map((item) => {
+        let tag = item._tags.toString();
         if(item.author === null){
           item.author = 'Sin autor';
         }
@@ -54,7 +55,7 @@ cron.schedule('0 * * * *', () => {
         //console.log("Despues: "+comentario);
         //console.log("****************************************************");
         const res = pool.query(
-          `INSERT INTO notice (title, author, comment_text) VALUES ('${titulo}', '${autor}', '${comentario}')`
+          `INSERT INTO notice (title, author, comment_text, _tags) VALUES ('${titulo}', '${autor}', '${comentario}', '${tag}')`
         );
         iterador++;
       });

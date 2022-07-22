@@ -35,4 +35,8 @@ export class CreateNoticeDto {
     @IsOptional()
     @IsString()
     titulo: string;
+
+    @IsOptional()
+    @IsString()
+    tag: string;
   }
