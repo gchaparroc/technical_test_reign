@@ -13,5 +13,7 @@ export class Notice {
 
     @Column({ type: 'text' })
     comment_text: string;
-    /*_tags: number;*/
+
+    @Column({ type: 'text' })
+    _tags: string;
 }
