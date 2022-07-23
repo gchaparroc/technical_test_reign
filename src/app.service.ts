@@ -17,7 +17,7 @@ export class AppService {
     const port = this.configService.database.port;
     return `Hello World! ${apiKey} ${dbName}`;
   }
-
+  /*
   getTasks(){
     return new Promise((resolve, reject) => {
       this.clientPg.query('SELECT * FROM tasks', (err, res) => {
@@ -28,5 +28,5 @@ export class AppService {
       });
     });
   }
-
+  */
 }

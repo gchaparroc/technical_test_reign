@@ -17,7 +17,7 @@ export class NewsController {
       return this.newsService.findAll(params);
     }
 
-    @Get('filtroAutor')
+    @Get('filtros')
     @ApiOperation({summary: 'Filtrar noticias por autor o titulo (Ejemplo: localhost:3000/news/filtros?autor=%nombreAutor% ó localhost:3000/news/filtros?titulo=%titulo%)'})
     getNewsFiltradas(@Query() params: FilterNewsDto) {
       return this.newsService.findAllFiltrada(params);

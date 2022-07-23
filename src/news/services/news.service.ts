@@ -42,16 +42,19 @@ export class NewsService {
     });
   }
 
-  findOne(id: number){
-    console.log("llegamos a findOne");
-    const notice = this.noticeRepo.findOne(id);
+  async findOne(id: number){
+    const notice = await this.noticeRepo.findOne(id);
     if(!notice){
         throw new NotFoundException(`La Noticia #${id} no existe`);
     }
     return notice;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const notice = await this.noticeRepo.findOne(id);
+    if(!notice){
+      throw new NotFoundException(`La Noticia #${id} no existe`);
+    }
     return this.noticeRepo.delete(id);
   }
 
