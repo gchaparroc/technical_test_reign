@@ -9,7 +9,7 @@ var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 
 console.log(`Hoy ${fecha} a las ${hora} Iniciamos el proceso.`);
 
-cron.schedule('* * * * *', () => {
+cron.schedule('0 * * * *', () => {
   console.log('Corriendo tarea cada 1 hora');
 
   fetch('https://hn.algolia.com/api/v1/search_by_date?query=nodejs', {
